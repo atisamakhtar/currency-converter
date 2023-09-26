@@ -25,7 +25,7 @@ const Currency = ({ currencies }) => {
             const res = await fetch(`http://data.fixer.io/api/latest?access_key=${process.env.NEXT_PUBLIC_TOKEN_KEY_FIXER}`);
 
             const data = await res.json();
-            console.log("data", data);
+            // console.log("data", data);
             setConvertedAmount((
                 data.rates[toCurrency] / data.rates[fromCurrency]
             ).toFixed(3)
