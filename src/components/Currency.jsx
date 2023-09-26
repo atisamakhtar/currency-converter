@@ -26,14 +26,14 @@ const Currency = ({ currencies }) => {
 
             const data = await res.json();
             console.log("data", data);
+            setConvertedAmount((
+                data.rates[toCurrency] / data.rates[fromCurrency]
+            ).toFixed(3)
+            );
         } catch(error) {
             console.error('An error occurred:', error.message);
         }
 
-        // setConvertedAmount((
-        //     data.rates[toCurrency] / data.rates[fromCurrency]
-        // ).toFixed(3)
-        // );
 
     }
 
@@ -48,7 +48,7 @@ const Currency = ({ currencies }) => {
                     <label className='mb-1 block font-semibold' htmlFor="amount">Enter Amount to be converted</label>
                     <input onChange={e => {
                         setAmount(e.target.value);
-                    }} className='md:w-[100%] w-40 px-[5px] py-[0.5px] border-l-2 border-y-2 border-stone-300' type="number" placeholder='1' id='from' step="0.01" min="1" />
+                    }} className='md:w-auto w-40 px-[5px] py-[0.5px] border-l-2 border-y-2 border-stone-300' type="number" placeholder='1' id='from' step="0.01" min="1" />
 
                     <select onChange={(e) => {
                         // console.log(e.target.value);
