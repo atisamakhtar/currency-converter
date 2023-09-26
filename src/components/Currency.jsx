@@ -11,7 +11,7 @@ const Currency = ({ currencies }) => {
     const [fromCurrency, setFromCurrency] = useState("GBP");
     const [toCurrency, setToCurrency] = useState("JPY");
     const [amount, setAmount] = useState(1);
-    const [reqAmount, setReqAmount] = useState(290);
+    const [convertedAmount, setConvertedAmount] = useState();
 
     const submitHandler = (event) => {
         event.preventDefault();
@@ -20,67 +20,49 @@ const Currency = ({ currencies }) => {
     }
 
     const fixerCurrencyConverter = async (fromCur, toCur, amountToBeConverted) => {
-        const res = await fetch(`http://data.fixer.io/api/latest?access_key=f61da53f3905dc40a51f6bb8fbf1de68`);
-        // & from = ${fromCur}
-        // & to = ${toCur}
-        // & amount = ${amountToBeConverted}`);
 
-        // const res = await fetch(`http://data.fixer.io/api/convert
-        // ? access_key = f61da53f3905dc40a51f6bb8fbf1de68
-        // & from = GBP
-        // & to = JPY
-        // & amount = 25`)
+        try {
+            const res = await fetch(`http://data.fixer.io/api/latest?access_key=${process.env.NEXT_PUBLIC_TOKEN_KEY_FIXER}`);
 
-        const data = await res.json();
-        console.log(data);
+            const data = await res.json();
+            console.log("data", data);
+        } catch(error) {
+            console.error('An error occurred:', error.message);
+        }
+
+        // setConvertedAmount((
+        //     data.rates[toCurrency] / data.rates[fromCurrency]
+        // ).toFixed(3)
+        // );
+
     }
 
-    // const RunCurrencyConverter = async (from, to, amount) => {
-
-    //     from = from.toUpperCase;
-    //     to = to.toUpperCase;
-
-    //     const url = `https://currency-converter5.p.rapidapi.com/currency/convert?format=json&from=${from}&to=${to}&amount=${amount}`;
-
-    //     const options = {
-    //         method: 'GET',
-    //         headers: {
-    //             'X-RapidAPI-Key': '8c1b752faamsh9f0e6438e7b8fd7p102ea0jsnd9b7c459d412',
-    //             'X-RapidAPI-Host': 'currency-converter5.p.rapidapi.com'
-    //         }
-    //     };
-
-    //     try {
-    //         const response = await fetch(url, options);
-    //         const result = await response.text();
-    //         setReqAmount(result);
-    //         console.log(result);
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // }
+    // console.log("token", process.env.NEXT_PUBLIC_TOKEN_KEY_FIXER);
+    // console.log("token", `http://data.fixer.io/api/latest?access_key=${process.env.NEXT_PUBLIC_TOKEN_KEY_FIXER}`);
 
     return (
-        <section>
+        <section className='md:w-[25vw] md:mt-16 m-auto' >
+            <h1 className='font-bold text-2xl' >Currency Coverter</h1>
             <form action="" onSubmit={submitHandler}>
                 <div className='my-5'>
-                    <label className='block font-semibold' htmlFor="amount">Enter Amount to be converted</label>
-                    <input className='px-[5px] py-[0.5px] border-2 border-stone-300' type="number" placeholder='1' id='from' step="0.01" min="1" />
-                </div>
-                <div className='my-5'>
-                    <label className='block font-semibold' htmlFor="from">Enter From Which Currency</label>
+                    <label className='mb-1 block font-semibold' htmlFor="amount">Enter Amount to be converted</label>
+                    <input onChange={e => {
+                        setAmount(e.target.value);
+                    }} className='px-[5px] py-[0.5px] border-l-2 border-y-2 border-stone-300' type="number" placeholder='1' id='from' step="0.01" min="1" />
+
                     <select onChange={(e) => {
                         // console.log(e.target.value);
                         setFromCurrency(e.target.value)
-                    }} className='px-3 py-[0.5px] border-2 border-stone-300' type="text" id='from'>
+                    }} className='px-3 py-[1.9px] border-r-2 border-y-2 border-stone-300' type="text" id='from'>
                         <option>Select</option>
                         {currencies.map((curr, ind) => {
                             return <option key={ind} >{curr}</option>
                         })}
                     </select>
                 </div>
+
                 <div className='my-5'>
-                    <label className='block font-semibold' htmlFor="to">To Which Currency you want to convert</label>
+                    <label className='mb-1 block font-semibold' htmlFor="to">To Which Currency you want to convert</label>
                     <select onChange={(e) => {
                         // console.log(e.target.value);
                         setToCurrency(e.target.value)
@@ -94,9 +76,9 @@ const Currency = ({ currencies }) => {
                 <input className='px-3 py-2 bg-slate-900 text-white hover:bg-slate-700' type="submit" value="Convert now !" />
             </form>
 
-            {/* || reqAmount != null */}
-            {(reqAmount) && <div className='my-3' >
-                Amount {amount} from {fromCurrency} to {toCurrency} is {reqAmount}
+            {/* || convertedAmount != null */}
+            {(convertedAmount) && <div className='my-3' >
+                Amount {amount} from {fromCurrency} to {toCurrency} is <span className='font-semibold' >{convertedAmount}</span>
             </div>}
 
         </section>
