@@ -41,14 +41,14 @@ const Currency = ({ currencies }) => {
     // console.log("token", `http://data.fixer.io/api/latest?access_key=${process.env.NEXT_PUBLIC_TOKEN_KEY_FIXER}`);
 
     return (
-        <section className='md:w-[25vw] md:mt-16 m-auto' >
+        <section className='md:w-[25vw] mt-5 md:mt-16 md:m-auto mx-5' >
             <h1 className='font-bold text-2xl' >Currency Coverter</h1>
             <form action="" onSubmit={submitHandler}>
                 <div className='my-5'>
                     <label className='mb-1 block font-semibold' htmlFor="amount">Enter Amount to be converted</label>
                     <input onChange={e => {
                         setAmount(e.target.value);
-                    }} className='px-[5px] py-[0.5px] border-l-2 border-y-2 border-stone-300' type="number" placeholder='1' id='from' step="0.01" min="1" />
+                    }} className='md:w-[100%] w-40 px-[5px] py-[0.5px] border-l-2 border-y-2 border-stone-300' type="number" placeholder='1' id='from' step="0.01" min="1" />
 
                     <select onChange={(e) => {
                         // console.log(e.target.value);
