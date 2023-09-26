@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { useState } from 'react';
-import CurrencyShortCodes from "../app/page";
 
 const Currency = ({ currencies }) => {
 
@@ -22,14 +21,14 @@ const Currency = ({ currencies }) => {
     const fixerCurrencyConverter = async (fromCur, toCur, amountToBeConverted) => {
 
         try {
-            const res = await fetch(`https://data.fixer.io/api/latest?access_key=${process.env.NEXT_PUBLIC_TOKEN_KEY_FIXER}`);
+            const res = await fetch(`http://data.fixer.io/api/latest?access_key=${process.env.NEXT_PUBLIC_TOKEN_KEY_FIXER}`);
 
             const data = await res.json();
-            // console.log("data", data);
-            setConvertedAmount((
-                data.rates[toCurrency] / data.rates[fromCurrency]
-            ).toFixed(3) * amount
-            );
+            console.log("data", data);
+            // setConvertedAmount((
+            //     data.rates[toCurrency] / data.rates[fromCurrency]
+            // ).toFixed(3) * amount
+            // );
         } catch(error) {
             console.error('An error occurred:', error.message);
         }
